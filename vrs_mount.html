@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<title>Display's Status for a connection to a VRS</title>
+ </head>
+<body>
+
+<form action="cgi-bin/vrs_mount.sh" method="get">
+<table>
+<tr>
+<td>
+Server Address:
+<td>
+<input type="text" name="IP" value="VRSNow.us"/>
+</tr>
+<tr>
+<td>
+Server Port:
+<td>
+<input type="text" name="PORT" value="2101"/>
+</tr>
+<tr>
+<td>
+User Name:
+<td>
+<input type="text" name="USER" value=""/>
+</tr>
+<tr>
+<td>
+Password:
+<td>
+<input type="password" name="PASS" value=""/>
+</tr>
+
+<tr>
+<td>
+Mount Point:
+<td>
+<input type="text" name="MOUNT" value="TVN_CMR_X"/>
+</tr>
+<tr>
+<td>
+Latitude (decimal degrees):
+<td>
+<input type="text" name="LAT" value="39.80"/>
+</tr>
+<tr>
+<td>
+Longitude (decimal degrees):
+<td>
+<input type="text" name="LONG" value="-105.1"/>
+</tr>
+</table>
+
+<input type="hidden" name="HEADERS" value=""/>
+
+<input type="submit" value="Submit" />
+
+<p/>
+
+</form>
+</body>
+</html>

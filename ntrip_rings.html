@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<title>Create rings from IBSS information</title>
+ </head>
+<body>
+
+<form action="cgi-bin/ntrip_circles" method="get">
+<table>
+<tr>
+<td>
+Server IP:
+</td>
+<td>
+<input type="text" name="IP" value="vrsnow.us"/>
+</td>
+</tr>
+<tr>
+<td>
+Server Port:
+</td>
+<td>
+<input type="text" name="PORT" value="2101"/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="USER" title="Optional for most servers">Username:</label>
+</td>
+<td>
+<input type="text" name="USER" ID="NAME" value=""/>
+</td>
+</tr>
+<tr>
+<td>
+<label for="PASSWORD" title="Optional for most servers">Password:</label>
+</td>
+<td>
+<input type="text" name="PASSWORD" id ="PASSWORD" value=""/>
+</td>
+</tr>
+</table>
+
+<input type="submit" value="Submit" />
+</form>
+</body>
+</html>

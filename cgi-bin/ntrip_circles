@@ -1,0 +1,95 @@
+#! /bin/bash
+IP=`echo "$QUERY_STRING" | sed -n 's/^.*IP=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+PORT=`echo "$QUERY_STRING" | sed -n 's/^.*PORT=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+USER=`echo "$QUERY_STRING" | sed -n 's/^.*USER=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+PASS=`echo "$QUERY_STRING" | sed -n 's/^.*PASS=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+
+#IP=sps851.com
+#PORT=2101
+#USER=gkirk
+#USER_ORG=trimblehh
+#PASS=tablet
+
+
+curl -i -f  -o  ~/tmp/tmp_st_$$ --connect-timeout 10 -m 300  -H "Ntrip-Version: Ntrip/1.0" -H "User-Agent: NTRIP IBSS_CIRCLES/0.1" -u $USER:$PASS  http://$IP:$PORT/ &>/dev/null
+echo -e "Content-type: application/vnd.google-earth.kml+xml\r\n\r\n"
+cat <<EOF
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+<Style id="sn_ylw-pushpin">
+   <IconStyle>
+      <color>ff00ffff</color>
+   </IconStyle>
+   <LineStyle>
+      <width>2</width>
+      <color>ff00ffff</color>
+   </LineStyle>
+   <PolyStyle>
+      <color>2f00ffff</color>
+   </PolyStyle>
+</Style>
+<Style id="sn_red-pushpin">
+   <IconStyle>
+      <color>ff0000ff</color>
+   </IconStyle>
+   <LineStyle>
+      <width>2</width>
+      <color>ff0000ff</color>
+   </LineStyle>
+   <PolyStyle>
+      <color>2f0000ff</color>
+   </PolyStyle>
+</Style>
+<Style id="sn_grn-pushpin">
+   <IconStyle>
+      <color>ff00ff00</color>
+   </IconStyle>
+   <LineStyle>
+      <width>2</width>
+      <color>ff00ff00</color>
+   </LineStyle>
+   <PolyStyle>
+      <color>2f00ff00</color>
+   </PolyStyle>
+</Style>
+<Style id="sn_blue-pushpin">
+   <IconStyle>
+      <color>ffff0000</color>
+   </IconStyle>
+   <LineStyle>
+      <width>2</width>
+      <color>ffff0000</color>
+   </LineStyle>
+   <PolyStyle>
+      <color>2fff0000</color>
+   </PolyStyle>
+</Style>
+<Style id="sn_purp-pushpin">
+   <IconStyle>
+      <color>ffffff00</color>
+   </IconStyle>
+   <LineStyle>
+      <width>2</width>
+      <color>ffffff00</color>
+   </LineStyle>
+   <PolyStyle>
+      <color>2fffff00</color>
+   </PolyStyle>
+</Style>
+<Style>
+   <ListStyle>
+   <listItemType>radioFolder</listItemType>
+   </ListStyle>
+</Style>
+<name>NTRIP Accuracy Rings</name>
+<Folder>
+<name>RTK Horizontal Accuracy Rings</name>
+<visibility>0</visibility>
+EOF
+perl ntripibss_horz_circle.pl <~/tmp/tmp_st_$$
+echo "</Folder><Folder><name>RTK Vertical Accuracy Rings</name><visibility>1</visibility><open>1</open>"
+perl ntripibss_vert_circle.pl <~/tmp/tmp_st_$$
+cat <<EOF
+</Folder>
+</Document></kml>
+EOF

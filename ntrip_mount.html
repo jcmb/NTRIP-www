@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<title>Display's Status for a connection to a NTRIP base</title>
+ </head>
+<body>
+
+<form action="cgi-bin/ntrip_mount.sh" method="get">
+<table>
+<tr>
+<td>
+Server Address:
+<td>
+<input type="text" name="IP" value="SPS855.COM"/>
+</tr>
+<tr>
+<td>
+Server Port:
+<td>
+<input type="text" name="PORT" value="2101"/>
+</tr>
+<tr>
+<td>
+User Name:
+<td>
+<input type="text" name="USER" value="IBS"/>
+<tr>
+<tr>
+<td>
+Password:
+<td>
+<input type="password" name="PASS" value="IBS"/>
+</tr>
+<tr>
+<td>
+Mount Point:
+<td>
+<input type="text" name="MOUNT" value="CMRx"/>
+</tr>
+</table>
+
+<input type="hidden" name="HEADERS" value=""/>
+
+<input type="submit" value="Submit" />
+
+<p/>
+
+Note for NTRIP sources that require a position (VRS) to be sent, such as VRSnow servers, the system will report that the base is not sending. Use the VRS option
+</form>
+</body>
+</html>
