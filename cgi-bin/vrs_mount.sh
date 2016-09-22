@@ -71,7 +71,7 @@ echo -e "<br>This test takes 15 seconds"
 ./NtripClient.py --HeaderFile /tmp/headers_$$  -f /tmp/st_$$   -m 10  -u "$USER" -p "$PASS"  --latitude $LAT --longitude $LONG $IP $PORT $MOUNT
 #echo "Result: $?"
 echo "<br><H2>Status:</h2><br>"
-perl -f ibss_mount.pl < /tmp/headers_$$
+perl -f ntrip_mount.pl < /tmp/headers_$$
 RES=$?
 echo "</pre>"
 if [ $RES == 0 ]
