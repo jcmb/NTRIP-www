@@ -12,6 +12,13 @@ USER=`echo "$QUERY_STRING" | sed -n 's/^.*USER=\([^&]*\).*$/\1/p' | sed "s/%20/ 
 PASS=`echo "$QUERY_STRING" | sed -n 's/^.*PASS=\([^&]*\).*$/\1/p' | sed "s/%20/ /g" | sed "s/+/ /g"`
 MOUNT=`echo "$QUERY_STRING" | sed -n 's/^.*MOUNT=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
 HEADERS=`echo "$QUERY_STRING" | sed -n 's/^.*HEADERS=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+RTCM3=`echo "$QUERY_STRING" | sed -n 's/^.*RTCM3=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+TIME=10
+
+if [ -n "$RTCM3" ]
+then
+  TIME=20
+fi
 #IP=sps855.com
 #PORT=2101
 #USER=IBS
@@ -70,7 +77,7 @@ echo -e "<br>This test takes 15 seconds"
 #echo ./NtripClient.py --HeaderFile /tmp/headers_$$  -f /tmp/st_$$   -m 10  -u "$USER" -p "$PASS"  --latitude $LAT --longitude $LONG  $IP $PORT $MOUNT
 ./NtripClient.py --HeaderFile /tmp/headers_$$  -f /tmp/st_$$   -m 10  -u "$USER" -p "$PASS"  --latitude $LAT --longitude $LONG $IP $PORT $MOUNT
 #echo "Result: $?"
-echo "<br><H2>Status:</h2><br>"
+echo "<br><H2>Status:</h2>"
 perl -f ntrip_mount.pl < /tmp/headers_$$
 RES=$?
 echo "</pre>"
@@ -82,11 +89,11 @@ then
    then
       Size=`stat -c %s /tmp/st_$$`
       echo "Base is sending data ($Size bytes)"
-      rm /tmp/st_$$
    else
       echo "Base is not sending data"
    fi
 fi
+
 
 if [ $HEADERS ]
 then
@@ -94,8 +101,20 @@ then
    cat /tmp/headers_$$
    echo "</pre>"
 fi
+rm /tmp/headers_$$
 
-#rm headers_$$
+
+if [ $RTCM3 ]
+then
+   echo "<br><H2>Decoded Data</h2><pre>"
+   cd RTCM3
+   ./RTCM3_Decode.py < /tmp/st_$$
+   cd ..
+   echo "</pre>"
+fi
+rm /tmp/st_$$
+
+
 #curl -f  -o /tmp/st_$$ --connect-timeout 10 -m 300  -H "Ntrip-Version: Ntrip/2.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" -u $USER:$PASS  http://$USER_ORG.ibss.trimbleos.com:2101/
 #echo "Result: $?"
 #stat /tmp/st_$$
