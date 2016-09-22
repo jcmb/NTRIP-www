@@ -12,13 +12,57 @@ USER=`echo "$QUERY_STRING" | sed -n 's/^.*USER=\([^&]*\).*$/\1/p' | sed "s/%20/ 
 PASS=`echo "$QUERY_STRING" | sed -n 's/^.*PASS=\([^&]*\).*$/\1/p' | sed "s/%20/ /g" | sed "s/+/ /g"`
 MOUNT=`echo "$QUERY_STRING" | sed -n 's/^.*MOUNT=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
 HEADERS=`echo "$QUERY_STRING" | sed -n 's/^.*HEADERS=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
-#SERVER=sps855.com
+#IP=sps855.com
 #PORT=2101
 #USER=IBS
 #PASS=IBS
 #BASE=CMRx
+#LAT=39.80
+#LONG=-105.1
+#MOUNT=CMRx
+
+if [ -z "$IP" ]
+then
+   echo -e "<h1>Latitude not provided</h1>\n"
+   exit 3
+fi
+
+if [ -z "$PORT" ]
+then
+   echo -e "<h1>Latitude not provided</h1>\n"
+   exit 3
+fi
 
 
+if [ -z "$LAT" ]
+then
+   echo -e "<h1>Latitude not provided</h1>\n"
+   exit 3
+fi
+
+if [ -z "$LONG" ]
+then
+   echo -e "<h1>Longitude not provided</h1>\n"
+   exit 3
+fi
+   
+if [ -z "$USER" ]
+then
+   echo -e "<h1>User name not provided</h1>\n"
+   exit 3
+fi
+
+if [ -z "$PASS" ]
+then
+   echo -e "<h1>Password  not provided</h1>\n"
+   exit 3
+fi
+  
+if [ -z "$MOUNT" ]
+then
+   echo -e "<h1>Mount Point  not provided</h1>\n"
+   exit 3
+fi   
 echo -e "<h1>NTRIP mountpoint $MOUNT information for $USER from $IP:$PORT</h1>\n"
 echo -e "<br>This test takes 15 seconds"
 # echo curl -f  --connect-timeout 10 -m 10  -H "Ntrip-Version: Ntrip/2.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" -u $USER:$PASS  http://$USER_ORG.ibss.trimbleos.com:2101/$BASE
