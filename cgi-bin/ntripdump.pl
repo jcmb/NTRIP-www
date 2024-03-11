@@ -76,7 +76,7 @@ while (<>) {
    if ($skipped_header) {
        if ($_ ne "ENDSOURCETABLE" ) {
          ($type,$mount,$id,$format,$format_details,$carrier,$nav,$network,$country,$lat,$long,$nmea,$solution,$generator,$comp,$authentication,$fee,$bitrate,$misc) = split (/;/);
-        if ($type eq "STR") { 
+        if ($type eq "STR") {
             printf("<tr>\n");
             $total_mounts++;
    #        printf("   <TD>$type</TD>\n");
@@ -105,12 +105,15 @@ while (<>) {
            elsif ($carrier == "2") {
               print "L1/L2"
               }
+           elsif ($carrier == "3") {
+              print "L1/L2/L5"
+              }
            else {
               print "Unknown $carrier"
               }
-             
+
            printf("</TD>\n");
-   
+
            printf("   <TD> $nav</TD>\n");
            printf("   <TD> $network</TD>\n");
            printf("   <TD> $country</TD>\n");
@@ -138,13 +141,13 @@ while (<>) {
            elsif ( $authentication ==  "B") {print "Required"}
            elsif ( $authentication ==  "D") {print "Digest"}
            else {print "Unknown $authentication"}
-            
+
            printf("</TD>\n");
            printf("   <TD> ");
            if ($fee == "N") {print "No"}
            elsif ($fee == "Y") {print "Yes"}
            else {print "Unknown $fee"}
-              
+
            printf("</TD>\n");
    #        printf("   <TD> $bitrate</TD>\n");
            printf("   <TD> $misc</TD>\n");
@@ -157,7 +160,7 @@ while (<>) {
       $skipped_header = $_ eq "";
       }
    }
-   
+
 print "</tbody></TABLE>\n";
 print "<p/>Total Mount Points: $total_mounts"
 #print "</BODY>\n";
