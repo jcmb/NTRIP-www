@@ -5,8 +5,8 @@ echo -e "Content-type: text/html\r\n\r\n"
 cat  <<EOF
 <html><head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<script src="/IBSS/jquery.tablesorter.min.js"></script>
-<script src="/IBSS/jquery.tablesorter.widgets.min.js"></script>
+<script src="/NTRIP/jquery.tablesorter.min.js"></script>
+<script src="/NTRIP/jquery.tablesorter.widgets.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/theme.blue.css">
 <link rel="stylesheet" type="text/css" href="/css/tcui-styles.css">
 <title>NTRIP Table information</title></head>

@@ -156,13 +156,13 @@ while (<>) {
    }
 
 print "</tbody></TABLE>\n";
-print "<p/>Total Mount Points: $total_mounts";
+print "<p/>Total Mount Points: $total_mounts<br/>";
 
 print <<'EOF';
 <script>
 $(document).ready(function()
 {
-    $("#Mounts").tablesorter();
+    $("#Mounts").tablesorter({"theme": "blue"});
 }
 );
 </script>
