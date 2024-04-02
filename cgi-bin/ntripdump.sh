@@ -43,16 +43,16 @@ if [ $VERSION ]
 then
    if [ $USER ]
    then
-      curl --user $USER:$PASSWORD -D headers_$$ -f -o /tmp/st_$$ -A NTRIP --silent -H "Ntrip-Version: Ntrip/2.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" http://$IP:$PORT
+      curl --http0.9 --user $USER:$PASSWORD -D headers_$$ -f -o /tmp/st_$$ -A NTRIP --silent -H "Ntrip-Version: Ntrip/2.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" http://$IP:$PORT
    else
-      curl -D /tmp/headers_$$ -f -o /tmp/st_$$ -A NTRIP --silent -H "Ntrip-Version: Ntrip/2.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" http://$IP:$PORT
+      curl --http0.9 -D /tmp/headers_$$ -f -o /tmp/st_$$ -A NTRIP --silent -H "Ntrip-Version: Ntrip/2.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" http://$IP:$PORT
    fi
 else
    if [ $USER ]
    then
-       curl --user $USER:$PASSWORD -D headers_$$ -f -o /tmp/st_$$ -A NTRIP --silent -H "Ntrip-Version: Ntrip/1.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" http://$IP:$PORT
+       curl --http0.9 --user $USER:$PASSWORD -D headers_$$ -f -o /tmp/st_$$ -A NTRIP --silent -H "Ntrip-Version: Ntrip/1.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" http://$IP:$PORT
    else
-       curl -D /tmp/headers_$$ -f -o /tmp/st_$$ -A NTRIP --silent -H "Ntrip-Version: Ntrip/1.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" http://$IP:$PORT
+       curl --http0.9 -D /tmp/headers_$$ -f -o /tmp/st_$$ -A NTRIP --silent -H "Ntrip-Version: Ntrip/1.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" http://$IP:$PORT
    fi
 fi
 
