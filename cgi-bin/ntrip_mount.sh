@@ -45,9 +45,10 @@ fi
 if [ $HEADERS ]
 then
    echo "<br><H2>Headers</h2><pre>"
-   cat ~/tmp/headers_$$
+   cat /tmp/headers_$$
    echo "</pre>"
 fi
+rm -f /tmp/headers_$$
 
 #rm headers_$$
 #curl -f  -o ~/tmp/st_$$ --connect-timeout 10 -m 300  -H "Ntrip-Version: Ntrip/2.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" -u $USER:$PASS  http://$USER_ORG.ibss.trimbleos.com:2101/

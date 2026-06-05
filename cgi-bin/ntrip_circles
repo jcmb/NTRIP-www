@@ -1,8 +1,16 @@
 #! /bin/bash
 IP=`echo "$QUERY_STRING" | sed -n 's/^.*IP=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
 PORT=`echo "$QUERY_STRING" | sed -n 's/^.*PORT=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
-USER=`echo "$QUERY_STRING" | sed -n 's/^.*USER=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
-PASS=`echo "$QUERY_STRING" | sed -n 's/^.*PASS=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+USER=`echo "$QUERY_STRING" | sed -n 's/^.*USER=\([^&]*\).*$/\1/p' | sed "s/%20/ /g" | sed "s/+/ /g"`
+USER=$(printf '%b' "${USER//%/\\x}")
+PASSWORD=`echo "$QUERY_STRING" | sed -n 's/^.*PASSWORD=\([^&]*\).*$/\1/p' | sed "s/%20/ /g" | sed "s/+/ /g"`
+PASSWORD=$(printf '%b' "${PASSWORD//%/\\x}")
+if [ -z "$PASSWORD" ]
+then
+   PASS=`echo "$QUERY_STRING" | sed -n 's/^.*PASS=\([^&]*\).*$/\1/p' | sed "s/%20/ /g" | sed "s/+/ /g"`
+   PASS=$(printf '%b' "${PASS//%/\\x}")
+   PASSWORD=$PASS
+fi
 
 #IP=sps851.com
 #PORT=2101
@@ -11,7 +19,7 @@ PASS=`echo "$QUERY_STRING" | sed -n 's/^.*PASS=\([^&]*\).*$/\1/p' | sed "s/%20/ 
 #PASS=tablet
 
 
-curl -i -f  -o  ~/tmp/tmp_st_$$ --connect-timeout 10 -m 300  -H "Ntrip-Version: Ntrip/1.0" -H "User-Agent: NTRIP IBSS_CIRCLES/0.1" -u $USER:$PASS  http://$IP:$PORT/ &>/dev/null
+curl -i -f  -o  /tmp/tmp_st_$$ --connect-timeout 10 -m 300  -H "Ntrip-Version: Ntrip/1.0" -H "User-Agent: NTRIP IBSS_CIRCLES/0.1" -u $USER:$PASSWORD  http://$IP:$PORT/ &>/dev/null
 echo -e "Content-type: application/vnd.google-earth.kml+xml\r\n\r\n"
 cat <<EOF
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -86,10 +94,11 @@ cat <<EOF
 <name>RTK Horizontal Accuracy Rings</name>
 <visibility>0</visibility>
 EOF
-perl ntripibss_horz_circle.pl <~/tmp/tmp_st_$$
+perl ntripibss_horz_circle.pl < /tmp/tmp_st_$$
 echo "</Folder><Folder><name>RTK Vertical Accuracy Rings</name><visibility>1</visibility><open>1</open>"
-perl ntripibss_vert_circle.pl <~/tmp/tmp_st_$$
+perl ntripibss_vert_circle.pl < /tmp/tmp_st_$$
 cat <<EOF
 </Folder>
 </Document></kml>
 EOF
+rm -f /tmp/tmp_st_$$

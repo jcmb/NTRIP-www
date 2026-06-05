@@ -75,7 +75,7 @@ echo -e "<br>This test takes 15 seconds"
 # echo curl -f  --connect-timeout 10 -m 10  -H "Ntrip-Version: Ntrip/2.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" -u $USER:$PASS  http://$USER_ORG.ibss.trimbleos.com:2101/$BASE
 #curl -D /tmp/headers_$$  -o /tmp/st_$$   --connect-timeout 10 -m 10  -H "Ntrip-Version: Ntrip/1.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" -u $USER:$PASS  http://$SERVER:$PORT/$BASE
 #echo ./NtripClient.py --HeaderFile /tmp/headers_$$  -f /tmp/st_$$   -m 10  -u "$USER" -p "$PASS"  --latitude $LAT --longitude $LONG  $IP $PORT $MOUNT
-./NtripClient.py --HeaderFile /tmp/headers_$$  -f /tmp/st_$$   -m 10  -u "$USER" -p "$PASS"  --latitude $LAT --longitude $LONG $IP $PORT $MOUNT
+./NtripClient.py --HeaderFile /tmp/headers_$$  -f /tmp/st_$$   -m 10  -u "$USER" -p "$PASS"  --GGA --latitude $LAT --longitude $LONG $IP $PORT $MOUNT
 #echo "Result: $?"
 echo "<br><H2>Status:</h2>"
 perl -f ntrip_mount.pl < /tmp/headers_$$

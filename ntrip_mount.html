@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
-<title>Display's Status for a connection to a VRS</title>
+<title>Display's Status for a connection to a NTRIP base</title>
 <link rel="stylesheet" type="text/css" href="/css/tcui-styles.css">
 </head>
 <body class="page">
@@ -22,41 +22,51 @@
 <tr>
 <td>
 Server Address:
+</td>
 <td>
 <input type="text" name="IP" value="SPS855.com"/>
+</td>
 </tr>
 <tr>
 <td>
 Server Port:
+</td>
 <td>
 <input type="text" name="PORT" value="2103"/>
+</td>
 </tr>
 <tr>
 <td>
 User Name:
+</td>
 <td>
 <input type="text" name="USER" value="IBS"/>
+</td>
 </tr>
 <tr>
 <td>
 Password:
+</td>
 <td>
 <input type="password" name="PASS" value="IBS"/>
+</td>
 </tr>
-
 <tr>
 <td>
 Mount Point:
+</td>
 <td>
 <input type="text" name="MOUNT" value="RTCM3"/>
+</td>
 </tr>
-<tr>
-
 <tr>
 <td>
 Decode Stream as RTCM3:
+</td>
 <td>
+<!-- TODO: hook RTCM3 checkbox up in ntrip_mount.sh -->
 <input id="RTCM3" type="checkbox" name="RTCM3"/>
+</td>
 </tr>
 </table>
 
@@ -67,12 +77,13 @@ if (urlParams.has("RTCM3") && urlParams.get("RTCM3") === "true") {
 }
 </script>
 
-
 <input type="hidden" name="HEADERS" value=""/>
 
 <input type="submit" value="Submit" />
 
 <p/>
+
+Note for NTRIP sources that require a position (VRS) to be sent, such as VRSnow servers, the system will report that the base is not sending. Use the VRS option.
 
 </form>
 
