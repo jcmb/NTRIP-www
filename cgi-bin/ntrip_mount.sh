@@ -10,11 +10,11 @@ MOUNT=`echo "$QUERY_STRING" | sed -n 's/^.*MOUNT=\([^&]*\).*$/\1/p' | sed "s/%20
 HEADERS=`echo "$QUERY_STRING" | sed -n 's/^.*HEADERS=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
 RAW=`echo "$QUERY_STRING" | sed -n 's/^.*RAW=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
 
-#SERVER=sps855.com
+#IP=209.236.50.154
 #PORT=2101
 #USER=IBS
 #PASS=IBS
-#BASE=CMRx
+#MOUNT=CMR
 
 
 echo -e "<h1>NTRIP mountpoint $MOUNT information for $USER from $IP:$PORT</h1>\n"
@@ -22,21 +22,21 @@ echo -e "<br>This test takes 15 seconds"
 # echo curl -f  --connect-timeout 10 -m 10  -H "Ntrip-Version: Ntrip/2.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" -u $USER:$PASS  http://$USER_ORG.ibss.trimbleos.com:2101/$BASE
 #curl -D ~/tmp/headers_$$  -o ~/tmp/st_$$   --connect-timeout 10 -m 10  -H "Ntrip-Version: Ntrip/1.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" -u $USER:$PASS  http://$SERVER:$PORT/$BASE
 #echo ./NtripClient.py --HeaderFile ~/tmp/headers_$$  -f ~/tmp/st_$$   -m 10  -u "$USER" -p "$PASS"  $IP $PORT $MOUNT
-./NtripClient.py --HeaderFile ~/tmp/headers_$$  -f ~/tmp/st_$$   -m 10  -u "$USER" -p "$PASS"  $IP $PORT $MOUNT
+./NtripClient.py --HeaderFile /tmp/headers_$$  -f /tmp/st_$$   -m 10  -u "$USER" -p "$PASS"  $IP $PORT $MOUNT
 #echo "Result: $?"
 echo "<br><H2>Status:</h2><br>"
-perl -f ibss_mount.pl < ~/tmp/headers_$$
+perl -f ibss_mount.pl < /tmp/headers_$$
 RES=$?
 echo "</pre>"
 if [ $RES == 0 ]
 then
    echo "<H2>Data:</H2>"
 
-   if [ -s ~/tmp/st_$$ ]
+   if [ -s /tmp/st_$$ ]
    then
-      Size=`stat -c %s ~/tmp/st_$$`
+      Size=`stat -c %s /tmp/st_$$`
       echo "Base is sending data ($Size bytes)"
-      rm ~/tmp/st_$$
+      rm /tmp/st_$$
    else
       echo "Base is not sending data"
    fi
