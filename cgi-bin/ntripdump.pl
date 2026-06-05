@@ -31,6 +31,17 @@ my $bitrate;
 my $misc;
 my $total_mounts=0;
 
+my @lines = <>;
+
+for my $line (@lines) {
+    if ($line =~ /^ERROR\s*-\s*(.*)/i) {
+        my $msg = $1;
+        $msg =~ s/[\r\n]+$//;
+        print "Authentication error: $msg<br>\n";
+        exit 1;
+    }
+}
+
 #print "<HTML>\n";
 #print "<BODY>\n";
 
@@ -59,8 +70,9 @@ printf("   <th> Misc</th>\n");
 printf("   <th> #Fields</th>\n");
 printf("</tr><thead><tbody>\n");
 
-while (<>) {
-   chomp;
+for my $line (@lines) {
+   chomp $line;
+   $_ = $line;
 #   print "***+$_=\n";
    if ($skipped_header) {
        if ($_ ne "ENDSOURCETABLE" ) {
