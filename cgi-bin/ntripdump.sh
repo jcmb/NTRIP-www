@@ -27,7 +27,11 @@ IP=`echo "$QUERY_STRING" | sed -n 's/^.*IP=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
 PORT=`echo "$QUERY_STRING" | sed -n 's/^.*PORT=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
 HEADERS=`echo "$QUERY_STRING" | sed -n 's/^.*HEADERS=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
 USER=`echo "$QUERY_STRING" | sed -n 's/^.*USER=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+USER=$(printf '%b' "${USER//%/\\x}")
 PASSWORD=`echo "$QUERY_STRING" | sed -n 's/^.*PASSWORD=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
+PASSWORD=$(printf '%b' "${PASSWORD//%/\\x}")
+
+
 VERSION=`echo "$QUERY_STRING" | sed -n 's/^.*VERSION=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
 RAW=`echo "$QUERY_STRING" | sed -n 's/^.*RAW=\([^&]*\).*$/\1/p' | sed "s/%20/ /g"`
 
