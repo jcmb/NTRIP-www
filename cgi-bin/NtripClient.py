@@ -196,6 +196,9 @@ class NtripClient(object):
                             elif line.find("404 Not Found")>=0:
                                 sys.stderr.write("Mount Point does not exist\n")
                                 sys.exit(2)
+                            elif line.find("ERROR -")>=0:
+                                sys.stderr.write(line+"\n")
+                                sys.exit(1)
                             elif line.find("ICY 200 OK")>=0:
                                 #Request was valid
                                 if self.verbose:
