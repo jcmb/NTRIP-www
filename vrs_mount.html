@@ -63,12 +63,20 @@ Longitude (decimal degrees):
 <input type="text" name="LONG" value="-105.1"/>
 </tr>
 <tr>
+
 <td>
 Decode Stream as RTCM3:
 <td>
-<input type="checkbox" name="RTCM3"/>
+<input id="RTCM3" type="checkbox" name="RTCM3"/>
 </tr>
 </table>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has("RTCM3") && urlParams.get("RTCM3") === "true") {
+  document.getElementById("RTCM3").checked = true;
+}
+</script>
 
 <input type="hidden" name="HEADERS" value=""/>
 

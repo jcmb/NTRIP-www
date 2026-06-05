@@ -2,43 +2,71 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
-<title>Display's Status for a connection to a NTRIP base</title>
- </head>
-<body>
+<title>Display's Status for a connection to a VRS</title>
+<link rel="stylesheet" type="text/css" href="/css/tcui-styles.css">
+</head>
+<body class="page">
+<div class="container clearfix">
+  <div style="padding: 10px 10px 10px 0 ;"> <a href="http://construction.trimble.com/">
+        <img src="/images/trimble-logo.jpg" alt="Trimble Logo" id="logo"> </a>
+      </div>
+  <!-- end #logo-area -->
+</div>
+<div id="top-header-trim"></div>
+<div id="content-area">
+<div id="content">
+<div id="main-content" class="clearfix">
 
-<form action="cgi-bin/ntrip_mount.sh" method="get">
+<form action="/cgi-bin/NTRIP/ntrip_mount.sh" method="get">
 <table>
 <tr>
 <td>
 Server Address:
 <td>
-<input type="text" name="IP" value="SPS855.COM"/>
+<input type="text" name="IP" value="SPS855.com"/>
 </tr>
 <tr>
 <td>
 Server Port:
 <td>
-<input type="text" name="PORT" value="2101"/>
+<input type="text" name="PORT" value="2103"/>
 </tr>
 <tr>
 <td>
 User Name:
 <td>
 <input type="text" name="USER" value="IBS"/>
-<tr>
+</tr>
 <tr>
 <td>
 Password:
 <td>
 <input type="password" name="PASS" value="IBS"/>
 </tr>
+
 <tr>
 <td>
 Mount Point:
 <td>
-<input type="text" name="MOUNT" value="CMRx"/>
+<input type="text" name="MOUNT" value="RTCM3"/>
+</tr>
+<tr>
+
+<tr>
+<td>
+Decode Stream as RTCM3:
+<td>
+<input id="RTCM3" type="checkbox" name="RTCM3"/>
 </tr>
 </table>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has("RTCM3") && urlParams.get("RTCM3") === "true") {
+  document.getElementById("RTCM3").checked = true;
+}
+</script>
+
 
 <input type="hidden" name="HEADERS" value=""/>
 
@@ -46,7 +74,12 @@ Mount Point:
 
 <p/>
 
-Note for NTRIP sources that require a position (VRS) to be sent, such as VRSnow servers, the system will report that the base is not sending. Use the VRS option
 </form>
+
+
+</div>
+</div>
+</div>
+
 </body>
 </html>
