@@ -61,10 +61,11 @@ else
 fi
 
 RES=$?
-#echo "Result: $?"
-#echo perl ntripdump.pl <~/tmp/st_$$
-#cat ~/tmp/st_$$
-if [ $RES == 0 ]
+
+if [ -s /tmp/st_$$ ] && grep -q '^ERROR -' /tmp/st_$$; then
+    error_msg=`grep -m1 '^ERROR -' /tmp/st_$$ | sed 's/^ERROR - //' | tr -d '\r'`
+    echo "Authentication error: $error_msg"
+elif [ $RES == 0 ]
 then
 
     perl ntripdump.pl $IP $PORT $USER $PASSWORD </tmp/st_$$
