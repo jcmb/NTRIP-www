@@ -77,7 +77,7 @@ while (<>) {
               printf("   <TD><a href=\"ntrip_mount.sh?IP=$ip&PORT=$port&USER=$user&PASS=$password&MOUNT=$mount&FORMAT=$format\"> $mount</a></TD>\n");
            }
            else {
-              printf("   <TD><a href=\"VRS_Mount_Front?IP=$ip&PORT=$port&USER=$user&PASS=$password&MOUNT=$mount&FORMAT=$format\"> $mount</a></TD>\n");
+              printf("   <TD><a href=\"vrs_mount.sh?IP=$ip&PORT=$port&USER=$user&PASS=$password&MOUNT=$mount&LAT=$lat&LONG=$long\"> $mount</a></TD>\n");
            }
             }
             else {
