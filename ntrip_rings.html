@@ -2,9 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
-<title>Create rings from IBSS information</title>
- </head>
-<body>
+<title>Create rings from NTRIP sourcetable information</title>
+<link rel="stylesheet" type="text/css" href="/css/tcui-styles.css">
+</head>
+<body class="page">
+<div class="container clearfix">
+  <div style="padding: 10px 10px 10px 0 ;"> <a href="http://construction.trimble.com/">
+        <img src="/images/trimble-logo.jpg" alt="Trimble Logo" id="logo"> </a>
+      </div>
+  <!-- end #logo-area -->
+</div>
+<div id="top-header-trim"></div>
+<div id="content-area">
+<div id="content">
+<div id="main-content" class="clearfix">
 
 <form action="cgi-bin/IBSS/ntrip_circles" method="get">
 <table>
@@ -13,7 +24,7 @@
 Server IP:
 </td>
 <td>
-<input type="text" name="IP" value="vrsnow.us"/>
+<input type="text" name="IP" value="share.ibss.trimble.com"/>
 </td>
 </tr>
 <tr>
@@ -29,7 +40,7 @@ Server Port:
 <label for="USER" title="Optional for most servers">Username:</label>
 </td>
 <td>
-<input type="text" name="USER" ID="NAME" value=""/>
+<input type="text" name="USER" id="USER" value=""/>
 </td>
 </tr>
 <tr>
@@ -37,12 +48,17 @@ Server Port:
 <label for="PASSWORD" title="Optional for most servers">Password:</label>
 </td>
 <td>
-<input type="text" name="PASSWORD" id ="PASSWORD" value=""/>
+<input type="password" name="PASSWORD" id="PASSWORD" value=""/>
 </td>
 </tr>
 </table>
 
 <input type="submit" value="Submit" />
 </form>
+
+</div>
+</div>
+</div>
+
 </body>
 </html>

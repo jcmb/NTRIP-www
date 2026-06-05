@@ -4,29 +4,35 @@
 #   www  -> /var/www/html/NTRIP
 #   cgi  -> /usr/lib/cgi-bin/NTRIP
 #
-# Requires root. Expects perl, python3, and curl on the target host.
-# Optional (not in this repo): IBSS_kml_* binaries, RTCM3/RTCM3_Decode.py,
-# jquery.tablesorter*.js (copy beside this script before install if needed),
-# and Trimble CSS/images under /var/www/html/css and /var/www/html/images.
+# KML ring binaries come from the IBSS repo (../IBSS/cgi-bin by default).
+# See README.md for full deployment notes.
 
 set -euo pipefail
 
 WEB_DIR="/var/www/html/NTRIP"
 CGI_DIR="/usr/lib/cgi-bin/NTRIP"
+IBSS_CGI_DIR=""
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 WEB_OWNER="${WEB_OWNER:-apache:apache}"
 CGI_OWNER="${CGI_OWNER:-apache:apache}"
 
+IBSS_KML_BINARIES=(
+    IBSS_kml_horz_circle
+    IBSS_kml_vert_circle
+)
+
 usage() {
     cat <<EOF
-Usage: sudo $0 [--web-dir DIR] [--cgi-dir DIR]
+Usage: sudo $0 [options]
 
-Install NTRIP HTML and CGI scripts.
+Install NTRIP HTML and CGI scripts on Linux.
 
-  --web-dir DIR   Web root (default: $WEB_DIR)
-  --cgi-dir DIR   CGI directory (default: $CGI_DIR)
-  -h, --help      Show this help
+  --web-dir DIR        Web root (default: $WEB_DIR)
+  --cgi-dir DIR        CGI directory (default: $CGI_DIR)
+  --ibss-cgi-dir DIR   IBSS repo cgi-bin with KML binaries
+                       (default: ../IBSS/cgi-bin relative to this repo)
+  -h, --help           Show this help
 EOF
 }
 
@@ -40,6 +46,10 @@ while [[ $# -gt 0 ]]; do
             CGI_DIR="$2"
             shift 2
             ;;
+        --ibss-cgi-dir)
+            IBSS_CGI_DIR="$2"
+            shift 2
+            ;;
         -h|--help)
             usage
             exit 0
@@ -51,6 +61,10 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+if [[ -z "$IBSS_CGI_DIR" ]]; then
+    IBSS_CGI_DIR="$SCRIPT_DIR/../IBSS/cgi-bin"
+fi
 
 if [[ "$(id -u)" -ne 0 ]]; then
     echo "This installer must be run as root (e.g. sudo $0)." >&2
@@ -69,9 +83,10 @@ if [[ ${#missing[@]} -gt 0 ]]; then
 fi
 
 echo "Installing NTRIP-www"
-echo "  from: $SCRIPT_DIR"
-echo "  www:  $WEB_DIR"
-echo "  cgi:  $CGI_DIR"
+echo "  from:      $SCRIPT_DIR"
+echo "  www:       $WEB_DIR"
+echo "  cgi:       $CGI_DIR"
+echo "  ibss cgi:  $IBSS_CGI_DIR"
 
 mkdir -p "$WEB_DIR" "$CGI_DIR"
 
@@ -91,7 +106,7 @@ for js in jquery.tablesorter.min.js jquery.tablesorter.widgets.min.js; do
         install -m 644 "$src" "$WEB_DIR/$js"
         echo "  installed $js"
     else
-        echo "  note: $js not found (optional; place copy in repo root before install)"
+        echo "  note: $js not found (optional; copy into repo root before install)"
     fi
 done
 
@@ -122,6 +137,21 @@ for src in "$SCRIPT_DIR/cgi-bin"/*; do
     esac
 done
 
+if [[ -d "$IBSS_CGI_DIR" ]]; then
+    for bin in "${IBSS_KML_BINARIES[@]}"; do
+        src="$IBSS_CGI_DIR/$bin"
+        if [[ -f "$src" ]]; then
+            install -m 755 "$src" "$CGI_DIR/$bin"
+            echo "  installed $bin from IBSS repo"
+        else
+            echo "  warning: $src not found in IBSS repo" >&2
+        fi
+    done
+else
+    echo "  warning: IBSS cgi-bin not found at $IBSS_CGI_DIR" >&2
+    echo "           KML accuracy rings will not work until IBSS_kml_* are installed." >&2
+fi
+
 if id apache >/dev/null 2>&1; then
     chown -R "$WEB_OWNER" "$WEB_DIR"
     chown -R "$CGI_OWNER" "$CGI_DIR"
@@ -142,15 +172,12 @@ echo "  http://<host>/NTRIP/vrs_mount.html"
 echo "  http://<host>/NTRIP/ntrip_rings.html"
 echo
 echo "Ensure Apache serves CGI from /cgi-bin/ (ScriptAlias) and allows"
-echo "ExecCGI in /usr/lib/cgi-bin/NTRIP."
+echo "ExecCGI in $CGI_DIR."
 echo
-echo "Manual steps still required on the server:"
-echo "  - Trimble CSS/images under /var/www/html/css and /var/www/html/images"
-echo "  - IBSS_kml_horz_circle, IBSS_kml_vert_circle in $CGI_DIR (for KML rings)"
-echo "  - RTCM3/RTCM3_Decode.py under $CGI_DIR (for RTCM3 decode option)"
+echo "See README.md for Apache configuration, Trimble CSS, and RTCM3 setup."
 
 optional_missing=()
-for bin in IBSS_kml_horz_circle IBSS_kml_vert_circle; do
+for bin in "${IBSS_KML_BINARIES[@]}"; do
     if [[ ! -x "$CGI_DIR/$bin" ]]; then
         optional_missing+=("$bin")
     fi

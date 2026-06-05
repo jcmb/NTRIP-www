@@ -30,13 +30,13 @@ fi
 
 if [ -z "$IP" ]
 then
-   echo -e "<h1>Latitude not provided</h1>\n"
+   echo -e "<h1>Server address not provided</h1>\n"
    exit 3
 fi
 
 if [ -z "$PORT" ]
 then
-   echo -e "<h1>Latitude not provided</h1>\n"
+   echo -e "<h1>Server port not provided</h1>\n"
    exit 3
 fi
 
@@ -71,11 +71,11 @@ then
    exit 3
 fi   
 echo -e "<h1>NTRIP mountpoint $MOUNT information for $USER from $IP:$PORT</h1>\n"
-echo -e "<br>This test takes 15 seconds"
+echo -e "<br>This test takes $TIME seconds"
 # echo curl -f  --connect-timeout 10 -m 10  -H "Ntrip-Version: Ntrip/2.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" -u $USER:$PASS  http://$USER_ORG.ibss.trimbleos.com:2101/$BASE
 #curl -D /tmp/headers_$$  -o /tmp/st_$$   --connect-timeout 10 -m 10  -H "Ntrip-Version: Ntrip/1.0" -H "User-Agent: NTRIP CURL_NTRIP_TEST/0.1" -u $USER:$PASS  http://$SERVER:$PORT/$BASE
 #echo ./NtripClient.py --HeaderFile /tmp/headers_$$  -f /tmp/st_$$   -m 10  -u "$USER" -p "$PASS"  --latitude $LAT --longitude $LONG  $IP $PORT $MOUNT
-./NtripClient.py --HeaderFile /tmp/headers_$$  -f /tmp/st_$$   -m 10  -u "$USER" -p "$PASS"  --GGA --latitude $LAT --longitude $LONG $IP $PORT $MOUNT
+./NtripClient.py --HeaderFile /tmp/headers_$$  -f /tmp/st_$$   -m $TIME  -u "$USER" -p "$PASS"  --GGA --latitude $LAT --longitude $LONG $IP $PORT $MOUNT
 #echo "Result: $?"
 echo "<br><H2>Status:</h2>"
 perl -f ntrip_mount.pl < /tmp/headers_$$
